@@ -5,14 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.UUID;
+import lombok.NoArgsConstructor;
+import pl.futurecollars.invoicing.configuration.Configurations;
 
+@NoArgsConstructor
 public class FileService {
-
-  private final String filePath;
-
-  public FileService(String filePath) {
-    this.filePath = filePath;
-  }
 
   private void writeToFile(String line, String path) {
     try {
@@ -24,7 +22,7 @@ public class FileService {
 
   public List<String> readFromDatabase() {
     try {
-      return Files.readAllLines(Paths.get(filePath));
+      return Files.readAllLines(Paths.get(Configurations.FILE_DATABASE_PATH));
     } catch (IOException e) {
       e.printStackTrace();
       return null;
@@ -32,13 +30,28 @@ public class FileService {
   }
 
   public void writeToDatabase(String line) {
-    writeToFile(line, filePath);
+    writeToFile(line, Configurations.FILE_DATABASE_PATH);
+  }
+
+  public void writeToIdKeeper(String id) {
+    writeToFile(id, Configurations.FILE_ID_KEEPER_PATH);
+  }
+
+  public boolean containsID(UUID id) {
+    try {
+      return Files.readAllLines(Paths.get(Configurations.FILE_ID_KEEPER_PATH))
+        .stream().anyMatch(line -> line.contains(id.toString()));
+
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
   }
 
   public void clearDatabase() {
     try {
-      Files.writeString(Paths.get(filePath), "");
-      Files.writeString(Paths.get(filePath), "");
+      Files.writeString(Paths.get(Configurations.FILE_DATABASE_PATH), "");
+      Files.writeString(Paths.get(Configurations.FILE_ID_KEEPER_PATH), "");
     } catch (IOException e) {
       e.printStackTrace();
     }
