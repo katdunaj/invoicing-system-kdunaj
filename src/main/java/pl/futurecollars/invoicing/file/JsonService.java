@@ -2,18 +2,15 @@ package pl.futurecollars.invoicing.file;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
+@Service
 public class JsonService<T> {
 
-  private final ObjectMapper objectMapper = new ObjectMapper();
-
-  public JsonService() {
-    objectMapper.findAndRegisterModules();
-    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-  }
+  private final ObjectMapper objectMapper;
 
   public String convertToJson(T object) {
     try {
@@ -31,6 +28,5 @@ public class JsonService<T> {
       e.printStackTrace();
       return null;
     }
-
   }
 }
