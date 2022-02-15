@@ -6,10 +6,14 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.file.FileService;
 import pl.futurecollars.invoicing.file.JsonService;
 import pl.futurecollars.invoicing.model.Invoice;
 
+@Service
+@RequiredArgsConstructor
 public class FileBaseData implements Database {
 
   private FileService fileService;
