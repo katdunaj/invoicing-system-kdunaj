@@ -1,20 +1,26 @@
 package pl.futurecollars.invoicing.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pl.futurecollars.invoicing.db.InMemoryDatabase;
+import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 import pl.futurecollars.invoicing.model.InvoiceEntry;
 
 @Service
-@Data
 public class InvoiceService {
 
-  private final InMemoryDatabase database;
+  private final Database database;
+
+  public InvoiceService(@Qualifier("fileBaseData") Database database) {
+    this.database = database;
+  }
 
   public BigDecimal getTotalNet(Invoice invoice) {
     return invoice.getInvoiceEntries()
@@ -48,12 +54,19 @@ public class InvoiceService {
         .collect(Collectors.toList());
   }
 
+  public List<Invoice> filterByDate(LocalDate date) {
+    return database.getAll()
+      .stream()
+      .filter((Invoice invoice) -> date.equals(invoice.getIssuerDate()))
+      .collect(Collectors.toList());
+  }
+
   public Invoice save(Invoice invoice) {
     return database.save(invoice);
   }
 
-  public Invoice getById(UUID id) {
-    return database.getById(id);
+  public Optional<Invoice> getById(UUID id) {
+    return Optional.ofNullable(database.getById(id));
   }
 
   public List<Invoice> getAll() {
