@@ -7,8 +7,10 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.UUID;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.configuration.Configurations;
 
+@Service
 @NoArgsConstructor
 public class FileService {
 
