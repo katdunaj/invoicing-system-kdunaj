@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.model.Invoice;
+
+@ConditionalOnProperty(name = "invoicing-system.database", havingValue = "memory")
+@Service
 
 public class InMemoryDatabase implements Database {
 
@@ -18,6 +23,7 @@ public class InMemoryDatabase implements Database {
     if (database.get(id) != null) {
       return save(invoice);
     }
+
     database.put(id, invoice);
     return invoice;
   }
@@ -33,19 +39,28 @@ public class InMemoryDatabase implements Database {
   }
 
   @Override
+  public Invoice update(Invoice updatedInvoice) {
+    if (database.containsKey(updatedInvoice.getId())) {
+      database.put(updatedInvoice.getId(), updatedInvoice);
+      return updatedInvoice;
+    }
+    return null;
+  }
+
+  @Override
   public boolean delete(UUID id) {
     try {
+      if (!database.containsKey(id)) {
+        return false;
+      }
       database.remove(id);
-    } catch (Exception ex) {
+    } catch (Exception exception) {
       return false;
     }
     return true;
   }
 
-  @Override
-  public Invoice update(Invoice updatedInvoice) {
-    database.put(updatedInvoice.getId(), updatedInvoice);
-    return updatedInvoice;
-
+  public void clearDatabase() {
+    database.clear();
   }
 }
