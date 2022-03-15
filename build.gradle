@@ -1,19 +1,20 @@
 buildscript {
     ext {
-        lombokVersion = '1.18.22'
-        spockVersion = '2.1-groovy-3.0'
-        springBootVersion = '2.4.2'
+        lombokVersion = '1.18.20'
+        spockVersion = '2.0-groovy-3.0'
+        springBootVersion = '2.5.4'
         springDependencyManagementVersion = '1.0.11.RELEASE'
     }
 }
 
 plugins {
-    id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
-    id 'java'
-    id 'groovy'
+    id 'application'
     id 'checkstyle'
+    id 'groovy'
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
     id 'jacoco'
+    id 'java'
+    id 'org.springframework.boot' version "${springBootVersion}"
 }
 
 repositories {
@@ -25,33 +26,54 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.spockframework:spock-core:${spockVersion}"
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
+}
+
+application {
+    mainClassName = 'pl.futurecollars.invoicing.App'
+}
+
+checkstyle {
+    showViolations = true
+    ignoreFailures = false
+    maxWarnings = 0
+    maxErrors = 0
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestCoverageVerification {
+    dependsOn test
 }
 
 jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                counter = 'BRANCH'
-                minimum = 0.55
-            }
-        }
-        rule {
-            limit {
-                counter = 'LINE'
-                minimum = 0.55
+                minimum = 0.85
             }
         }
     }
+}
 
+jacocoTestReport {
+    dependsOn test
 }
 
 java {
@@ -63,23 +85,7 @@ java {
 
 test {
     finalizedBy jacocoTestReport
-}
-
-check {
     finalizedBy jacocoTestCoverageVerification
-}
-
-jacocoTestReport {
-    dependsOn test
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:all" << "-Xlint:-processing" << "-Werror"
-}
-
-checkstyle {
-    showViolations = true
-    ignoreFailures = false
-    maxWarnings = 0
-    maxErrors = 0
+    useJUnitPlatform()
+    jvmArgs '--enable-preview'
 }
