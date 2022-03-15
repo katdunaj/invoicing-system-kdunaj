@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
@@ -18,7 +16,7 @@ public class InvoiceService {
 
   private final Database database;
 
-  public InvoiceService(@Qualifier("fileBaseData") Database database) {
+  public InvoiceService(Database database) {
     this.database = database;
   }
 
@@ -44,14 +42,14 @@ public class InvoiceService {
     return database.getAll()
       .stream()
       .filter((Invoice invoice) -> issuer.equals(invoice.getIssuer().getName()))
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
   }
 
   public List<Invoice> filterByReceiver(String receiver) {
     return database.getAll()
       .stream()
       .filter((Invoice invoice) -> receiver.equals(invoice.getReceiver().getName()))
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
   }
 
   public List<Invoice> filterByDate(LocalDate date) {
