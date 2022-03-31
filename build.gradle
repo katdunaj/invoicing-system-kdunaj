@@ -37,7 +37,9 @@ dependencies {
     testImplementation "org.spockframework:spock-core:${spockVersion}"
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
 
+
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
+
 }
 
 application {

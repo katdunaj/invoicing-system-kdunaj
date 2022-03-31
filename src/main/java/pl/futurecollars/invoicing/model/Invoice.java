@@ -1,5 +1,6 @@
 package pl.futurecollars.invoicing.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -10,10 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Invoice {
 
+  @ApiModelProperty
   private UUID id;
+
+  @ApiModelProperty
   private LocalDate issuerDate;
+
+  @ApiModelProperty
   private Company issuer;
+
+  @ApiModelProperty
   private Company receiver;
+
+  @ApiModelProperty
   private List<InvoiceEntry> invoiceEntries;
 
   public Invoice(UUID id, LocalDate issuerDate, Company issuer, Company receiver,

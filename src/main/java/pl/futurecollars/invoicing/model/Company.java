@@ -1,6 +1,6 @@
 package pl.futurecollars.invoicing.model;
 
-import java.util.UUID;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,13 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Company {
 
-  private UUID id;
+  @ApiModelProperty(value = "Object name ", required = true, example = "Telnet")
   private String name;
+
+  @ApiModelProperty(value = "Tax identification number", required = true, example = "112-425-567-89")
   private long taxIdentificationNumber;
+
+  @ApiModelProperty(value = "Object address", required = true, example = "ul.Ogrodowa 6, 05-085 Kampinos")
   private String address;
 
-  public Company(UUID id, String name, long taxIdentificationNumber, String address) {
-    this.id = id;
+  public Company(String name, long taxIdentificationNumber, String address) {
     this.name = name;
     this.taxIdentificationNumber = taxIdentificationNumber;
     this.address = address;
