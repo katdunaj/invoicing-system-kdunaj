@@ -1,4 +1,0 @@
-logging:
-  level:
-    pl.futurecollars.invoicing: debug
-    org.springframework: warn

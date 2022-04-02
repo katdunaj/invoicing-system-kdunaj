@@ -10,6 +10,7 @@ import pl.futurecollars.invoicing.model.Invoice;
 
 @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "memory")
 @Service
+
 public class InMemoryDatabase implements Database {
 
   private final HashMap<UUID, Invoice> database = new HashMap<>();
