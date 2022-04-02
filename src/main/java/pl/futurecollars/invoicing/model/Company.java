@@ -14,7 +14,7 @@ public class Company {
   @ApiModelProperty(value = "Tax identification number", required = true, example = "112-425-567-89")
   private long taxIdentificationNumber;
 
-  @ApiModelProperty(value = "Object address", required = true, example = "ul.Ogrodowa 6, 05-085 Kampinos")
+  @ApiModelProperty(value = "Object address", required = true, example = "ul.Ogrodowa 6, 05-085 Kampinos A")
   private String address;
 
   public Company(String name, long taxIdentificationNumber, String address) {
