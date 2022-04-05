@@ -22,21 +22,21 @@ public class InvoiceController implements InvoiceControllerApi {
 
   @Override
   public ResponseEntity<Invoice> save(@RequestBody Invoice invoice) {
-    log.debug("Add new invoice to database");
+    log.debug("Adding new invoice to database");
     return ResponseEntity.ok()
       .body(invoiceService.save(invoice));
   }
 
   @Override
   public ResponseEntity<List<Invoice>> getAll() {
-    log.debug("Get all invoices from database");
+    log.debug("Getting all invoices from database");
     return ResponseEntity.ok()
       .body(new ArrayList<>(invoiceService.getAll()));
   }
 
   @Override
   public ResponseEntity<Invoice> getById(@PathVariable UUID id) {
-    log.debug("Get invoice ID: " + id + " from database");
+    log.debug("Getting invoice ID: " + id + " from database");
     try {
       return ResponseEntity.ok()
         .body(invoiceService.getById(id).get());

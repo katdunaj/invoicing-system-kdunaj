@@ -74,5 +74,3 @@ class TaxCalculatorServiceTest extends Specification {
         result.getVatToPay() == 0
     }
 }
-
-//TaxReport(incomingVat=369, outgoingVat=369.00, income=900.00, costs=600.00, earnings=300.00, vatToPay=0.00)

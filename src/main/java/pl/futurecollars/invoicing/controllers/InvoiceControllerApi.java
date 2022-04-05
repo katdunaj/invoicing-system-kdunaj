@@ -27,7 +27,7 @@ public interface InvoiceControllerApi  {
   ResponseEntity<List<Invoice>> getAll();
 
   @ApiOperation("Get object ID")
-  @GetMapping
+  @GetMapping(path = "/{id}")
   ResponseEntity<Invoice> getById(@PathVariable UUID id);
 
   @ApiOperation("Updated objects ")
@@ -35,6 +35,6 @@ public interface InvoiceControllerApi  {
   ResponseEntity<Invoice> update(@RequestBody Invoice invoice);
 
   @ApiOperation("Delete object")
-  @DeleteMapping
+  @DeleteMapping(path = "/{id}")
   ResponseEntity<Boolean> update(@PathVariable UUID id);
 }
