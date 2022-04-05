@@ -25,32 +25,32 @@ public class TaxCalculatorService {
       .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
-  private BigDecimal income(String taxIdentificationNumber) {
+  BigDecimal income(String taxIdentificationNumber) {
     return visit(invoice -> invoice.getIssuer().getTaxIdentificationNumber().equals(taxIdentificationNumber),
       InvoiceEntry::getPrice);
   }
 
-  private BigDecimal costs(String taxIdentificationNumber) {
+  BigDecimal costs(String taxIdentificationNumber) {
     return visit(invoice -> invoice.getReceiver().getTaxIdentificationNumber().equals(taxIdentificationNumber),
       InvoiceEntry::getPrice);
   }
 
-  private BigDecimal incomingVat(String taxIdentificationNumber) {
+  BigDecimal incomingVat(String taxIdentificationNumber) {
     return visit(invoice -> invoice.getIssuer().getTaxIdentificationNumber().equals(taxIdentificationNumber),
       InvoiceEntry::getVatValue);
   }
 
-  private BigDecimal outgoingVat(String taxIdentificationNumber) {
+  BigDecimal outgoingVat(String taxIdentificationNumber) {
     return visit(invoice -> invoice.getReceiver().getTaxIdentificationNumber().equals(taxIdentificationNumber),
       InvoiceEntry::getVatValue);
   }
 
-  private BigDecimal earnings(String taxIdentificationNumber) {
+  BigDecimal earnings(String taxIdentificationNumber) {
     return income(taxIdentificationNumber).subtract(costs(taxIdentificationNumber));
 
   }
 
-  private BigDecimal vatToPay(String taxIdentificationNumber) {
+  BigDecimal vatToPay(String taxIdentificationNumber) {
     return incomingVat(taxIdentificationNumber).subtract(outgoingVat(taxIdentificationNumber));
 
   }

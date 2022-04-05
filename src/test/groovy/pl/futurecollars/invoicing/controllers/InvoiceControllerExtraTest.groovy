@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import pl.futurecollars.invoicing.db.Database
 import pl.futurecollars.invoicing.fixtures.InvoiceFixture
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.file.FileService
@@ -26,11 +27,9 @@ class InvoiceControllerExtraTest extends Specification {
     private MockMvc mockMvc
 
     @Autowired
-    private FileService fileService
+    private Database database
 
-    def cleanup() {
-        fileService.clearDatabase()
-    }
+    def cleanup() { database.clear() }
 
     @Autowired
     private JsonService<Invoice> jsonService
