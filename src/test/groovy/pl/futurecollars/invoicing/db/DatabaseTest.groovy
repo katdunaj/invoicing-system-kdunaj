@@ -93,4 +93,20 @@ abstract class DatabaseTest extends Specification {
 
         database.getAll().size() == 0
     }
+
+    def "should remove all invoices form database"() {
+        setup:
+        def invoice2 = new Invoice(UUID.randomUUID(), issuerDate, issuer, receiver, invoiceEntries)
+        def invoice3 = new Invoice(UUID.randomUUID(), issuerDate, issuer, receiver, invoiceEntries)
+        database.save(invoice)
+        database.save(invoice2)
+        database.save(invoice3)
+
+        when:
+        def result = database.clear()
+
+        then:
+        result
+        database.getAll().size() == 0
+    }
 }

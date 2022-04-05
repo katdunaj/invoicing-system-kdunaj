@@ -6,7 +6,10 @@ class CompanyFixture {
 
     static company(int id) {
 
-        new Company(UUID.randomUUID(), "Telnet", 12345, "Ul.Ogrodowa 3, 05-085 Kampinos")
+        new Company("156-75-78$id-111"
+                , "Ul. Ogrodowa 3/$id, 02-000 Kampinos"
+                , "Company $id")
 
     }
+
 }
