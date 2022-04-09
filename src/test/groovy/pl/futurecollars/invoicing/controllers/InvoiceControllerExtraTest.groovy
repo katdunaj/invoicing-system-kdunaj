@@ -110,8 +110,9 @@ class InvoiceControllerExtraTest extends Specification {
         invoice.setId(id)
 
         UUID updatedId
-        do updatedId = UUID.randomUUID()
-        while (updatedId == id)
+        for (updatedId = UUID.randomUUID();updatedId == id;)
+        {updatedId = UUID.randomUUID()}
+
 
         def updatedInvoice = InvoiceFixture.invoice(1)
         updatedInvoice.setId(updatedId)
@@ -154,8 +155,8 @@ class InvoiceControllerExtraTest extends Specification {
         invoice.setId(id)
 
         UUID updatedId
-        do updatedId = UUID.randomUUID()
-        while (updatedId == id)
+        for (updatedId = UUID.randomUUID();updatedId == id;)
+        {updatedId = UUID.randomUUID()}
 
         def deleteResponse = mockMvc.perform(
                 delete("/invoices/" + updatedId))

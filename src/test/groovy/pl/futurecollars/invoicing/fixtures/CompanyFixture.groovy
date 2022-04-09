@@ -6,10 +6,8 @@ class CompanyFixture {
 
     static company(int id) {
 
-        new Company("156-75-78$id-111"
-                , "Ul. Ogrodowa 3/$id, 02-000 Kampinos"
-                , "Company $id")
-
+        new Company("123-45-6$id-819"
+                , "Ul.Ogrodowa 6$id, 05-085 Kampinos A"
+                , "Company $id", 1000.00, 500.97)
     }
-
 }

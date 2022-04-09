@@ -17,9 +17,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@Stepwise
 @SpringBootTest
 @AutoConfigureMockMvc
+@Stepwise
 class InvoiceControllerTest extends Specification {
 
     @Autowired

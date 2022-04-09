@@ -16,8 +16,10 @@ class TaxCalculatorServiceTest extends Specification {
 
     def invoice1 = InvoiceFixture.invoice(2)
 
+    def invoiceGasoline = InvoiceFixture.invoiceWithGasoline(2)
+
     def setup() {
-        database.getAll() >> [invoice, invoice1]
+        database.getAll() >> [invoice, invoice1, invoiceGasoline]
     }
 
     def "should calculate income for company(2)"() {
@@ -64,7 +66,7 @@ class TaxCalculatorServiceTest extends Specification {
 
     def "should generate tax Report for company(2)"() {
         when:
-        def result = taxCalculatorService.taxReport(invoice1.getIssuer().getTaxIdentificationNumber())
+        def result = taxCalculatorService.taxReport(invoice1.getIssuer())
         then:
         result.getIncome() == 900
         result.getCosts() == 600
@@ -72,5 +74,19 @@ class TaxCalculatorServiceTest extends Specification {
         result.getOutgoingVat() == 369.00
         result.getEarnings() == 300
         result.getVatToPay() == 0
+        result.getIncome() == 1701
+        result.getCosts() == 611.62
+        result.getIncomingVat() == 391.23
+        result.getOutgoingVat() == 126.39
+        result.getIncomeMinusCosts() == 1089.38
+        result.getVatToPay() == 264.84
+        result.getPensionInsurance() == 500.97
+        result.getIncomeMinusCostsMinusPensionInsurance() == 588.41
+        result.getTaxCalculationBase() == 588
+        result.getIncomeTax() == 111.72
+        result.getHealthInsurance9() == 90
+        result.getHealthInsurance775() == 80
+        result.getIncomeTaxMinusHealthInsurance() == 31.72
+        result.getFinalIncomeTaxValue() == 31
     }
 }

@@ -2,14 +2,20 @@ package pl.futurecollars.invoicing.model;
 
 public enum Vat {
 
-  VAT_23(0.23f),
-  VAT_8(0.08f),
-  VAT_5(0.05f),
-  VAT_0(0);
+  VAT_23(0.23F),
+  VAT_8(0.08F),
+  VAT_5(0.05F),
+  VAT_0(0F),
+  VAT_ZW(0F);
 
-  public final double rate;
+  private final float rate;
 
-  Vat(double rate) {
+  Vat(float rate) {
+
     this.rate = rate;
+  }
+
+  public float getRate() {
+    return rate;
   }
 }
