@@ -7,32 +7,25 @@ import java.util.UUID;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 public class Invoice {
 
-  @ApiModelProperty
+  @ApiModelProperty(hidden = true)
   private UUID id;
 
-  @ApiModelProperty
-  private LocalDate issuerDate;
-
-  @ApiModelProperty
+  @ApiModelProperty(value = "Invoice issue date", required = true, example = "2021-09-30")
+  private LocalDate date;
   private Company issuer;
-
-  @ApiModelProperty
   private Company receiver;
+  private List<InvoiceEntry> entries;
 
-  @ApiModelProperty
-  private List<InvoiceEntry> invoiceEntries;
-
-  public Invoice(UUID id, LocalDate issuerDate, Company issuer, Company receiver,
-                 List<InvoiceEntry> invoiceEntries) {
-    this.id = id;
-    this.issuerDate = issuerDate;
+  public Invoice(LocalDate date, Company issuer, Company receiver, List<InvoiceEntry> entries) {
+    this.date = date;
     this.issuer = issuer;
     this.receiver = receiver;
-    this.invoiceEntries = invoiceEntries;
+    this.entries = entries;
+    this.id = null;
   }
 }
-

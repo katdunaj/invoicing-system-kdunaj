@@ -10,21 +10,21 @@ import java.time.LocalDate
 
 class InvoiceServiceTest extends Specification {
 
-    def issuer = new Company(UUID.randomUUID(), "Telnet", 123456, "ul.Ogrodowa 3 Kampinos")
-    def issuer2 = new Company(UUID.randomUUID(), "Nokia", 123456, "ul.Ogrodowa 3 Kampinos")
-    def issuerUpdated = new Company(UUID.randomUUID(), "Nokia", 123456, "ul.Ogrodowa 8 Kampinos")
-    def receiver = new Company(UUID.randomUUID(), "TelPlus", 6732890, "ul.Ogrodowa 8 Kampinos")
-    def receiver2 = new Company(UUID.randomUUID(), "IntelPlus", 6732890, "ul.Ogrodowa 8 Kampinos")
+    def issuer = new Company("112-425-567-89", "ul.Ogrodowa 3 Kampinos", "Telnet", 1000.00, 1000.00)
+    def issuer2 = new Company("112-425-567-89", "ul.Ogrodowa 3 Kampinos", "NetPlus", 1000.00, 1000.00)
+    def issuerUpdated = new Company("112-425-567-89", "ul.Ogrodowa 3 Kampinos", "PlusNet", 1000.00, 1000.00)
+    def receiver = new Company("112-425-567-89", "ul.Ogrodowa 3 Ciechanów", "Nokia", 1000.00, 1000.00)
+    def receiver2 = new Company("112-425-567-89", "ul.Ogrodowa 3 Ciechanów", "Evolutions", 1000.00, 1000.00)
     def issuerDate = LocalDate.of(2020, 10,23)
     def issuerDate2 = LocalDate.of(2021,10,24)
-    def invoiceEntries1 = new InvoiceEntry("Cukier", BigDecimal.valueOf(20), BigDecimal.valueOf(17), Vat.VAT_8)
-    def invoiceEntries2 = new InvoiceEntry("Sól", BigDecimal.valueOf(30), BigDecimal.valueOf(16), Vat.VAT_5)
+    def invoiceEntries1 = new InvoiceEntry("Cukier", BigDecimal.valueOf(20), Vat.VAT_8)
+    def invoiceEntries2 = new InvoiceEntry("Sól", BigDecimal.valueOf(30), Vat.VAT_5)
     def entries = Arrays.asList(invoiceEntries1, invoiceEntries2)
-    def invoice = new Invoice(UUID.randomUUID(), issuerDate, issuer, receiver, entries)
-    def invoice2 = new Invoice(UUID.randomUUID(), issuerDate, issuer2, receiver, entries)
-    def invoice3 = new Invoice(UUID.randomUUID(), issuerDate, issuer, receiver2, entries)
-    def invoice4 = new Invoice(UUID.randomUUID(), issuerDate2, issuer, receiver, entries)
-    def invoiceUpdated = new Invoice(UUID.randomUUID(), issuerDate, issuerUpdated, receiver, entries)
+    def invoice = new Invoice(issuerDate, issuer, receiver, entries)
+    def invoice2 = new Invoice(issuerDate, issuer2, receiver, entries)
+    def invoice3 = new Invoice(issuerDate, issuer, receiver2, entries)
+    def invoice4 = new Invoice(issuerDate2, issuer, receiver, entries)
+    def invoiceUpdated = new Invoice(issuerDate, issuerUpdated, receiver, entries)
     def database = new InMemoryDatabase()
 
     def "should calculate total net value of all invoice entries"() {

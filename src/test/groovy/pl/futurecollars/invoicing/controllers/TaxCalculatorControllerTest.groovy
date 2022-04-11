@@ -7,6 +7,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.db.Database
 import pl.futurecollars.invoicing.fixtures.InvoiceFixture
+import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.model.TaxReport
 
@@ -14,7 +15,6 @@ import pl.futurecollars.invoicing.file.JsonService
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -27,6 +27,9 @@ class TaxCalculatorControllerTest extends Specification {
 
     @Autowired
     private JsonService<Invoice> jsonServiceInvoice
+
+    @Autowired
+    private JsonService<Company> jsonServiceCompany
 
     @Autowired
     private JsonService<TaxReport> jsonServiceTaxReport
@@ -61,17 +64,26 @@ class TaxCalculatorControllerTest extends Specification {
 
     def "Should get tax report for company(2)"() {
         given:
-        def taxIdentificationNumber = invoice1.getIssuer().getTaxIdentificationNumber()
+        def companyAsJson = jsonServiceCompany.convertToJson(invoice1.getIssuer())
         def taxReport = new TaxReport.TaxReportBuilder()
-                .setIncomingVat(BigDecimal.valueOf(657))
-                .setOutgoingVat(BigDecimal.valueOf(789))
-                .setIncome(BigDecimal.valueOf(7846))
-                .setCosts(BigDecimal.valueOf(748))
-                .setEarnings(BigDecimal.valueOf(3465))
-                .setVatToPay(BigDecimal.valueOf(888))
+                .setIncomingVat(BigDecimal.valueOf(414))
+                .setOutgoingVat(BigDecimal.valueOf(138))
+                .setIncome(BigDecimal.valueOf(1800))
+                .setCosts(BigDecimal.valueOf(600))
+                .setIncomeMinusCostsMinusPensionInsurance(BigDecimal.valueOf(1200))
+                .setVatToPay(BigDecimal.valueOf(276))
+                .setPensionInsurance(BigDecimal.valueOf(500.97))
+                .setIncomeMinusCostsMinusPensionInsurance(BigDecimal.valueOf(699.03))
+                .setTaxCalculationBase(BigDecimal.valueOf(699))
+                .setIncomeTax(BigDecimal.valueOf(132.81))
+                .setHealthInsurance9(BigDecimal.valueOf(90))
+                .setHealthInsurance775(BigDecimal.valueOf(80))
+                .setIncomeTaxMinusHealthInsurance(BigDecimal.valueOf(52.81))
+                .setFinalIncomeTaxValue(BigDecimal.valueOf(52))
                 .build()
         when:
-        def response = mockMvc.perform(get("/tax/" + taxIdentificationNumber))
+        def response = mockMvc.perform(
+                post("/tax").content(companyAsJson).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
                 .response
