@@ -21,14 +21,14 @@ public class InvoiceService {
   }
 
   public BigDecimal getTotalNet(Invoice invoice) {
-    return invoice.getInvoiceEntries()
+    return invoice.getEntries()
       .stream()
       .map(InvoiceEntry::getPrice)
       .reduce(BigDecimal.valueOf(0), BigDecimal::add);
   }
 
   public BigDecimal getTotalTaxValue(Invoice invoice) {
-    return invoice.getInvoiceEntries()
+    return invoice.getEntries()
       .stream()
       .map(InvoiceEntry::getPrice)
       .reduce(BigDecimal.valueOf(0), BigDecimal::add);
@@ -55,7 +55,7 @@ public class InvoiceService {
   public List<Invoice> filterByDate(LocalDate date) {
     return database.getAll()
       .stream()
-      .filter((Invoice invoice) -> date.equals(invoice.getIssuerDate()))
+      .filter((Invoice invoice) -> date.equals(invoice.getDate()))
       .collect(Collectors.toList());
   }
 
