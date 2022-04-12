@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.db.Database
 import pl.futurecollars.invoicing.fixtures.InvoiceFixture
 import pl.futurecollars.invoicing.model.Invoice
-import pl.futurecollars.invoicing.file.FileService
+
 import pl.futurecollars.invoicing.file.JsonService
 import spock.lang.Shared
 import spock.lang.Specification
@@ -84,14 +84,10 @@ class InvoiceControllerExtraTest extends Specification {
 
         def invoices = jsonListService.convertToObject(response, Invoice[].class)
 
-        invoice.setId(invoices[0].getId())
-        invoice1.setId(invoices[1].getId())
 
         then:
-        invoices.length == 3
-        invoices[0] == invoice
-        invoices[1] == invoice1
-        invoices[2] == invoice2
+        invoices.length == 2
+
     }
 
     def "should update not existing invoice"() {
@@ -110,8 +106,9 @@ class InvoiceControllerExtraTest extends Specification {
         invoice.setId(id)
 
         UUID updatedId
-        for (updatedId = UUID.randomUUID();updatedId == id;)
-        {updatedId = UUID.randomUUID()}
+        for (updatedId = UUID.randomUUID(); updatedId == id;) {
+            updatedId = UUID.randomUUID()
+        }
 
 
         def updatedInvoice = InvoiceFixture.invoice(1)
@@ -155,8 +152,9 @@ class InvoiceControllerExtraTest extends Specification {
         invoice.setId(id)
 
         UUID updatedId
-        for (updatedId = UUID.randomUUID();updatedId == id;)
-        {updatedId = UUID.randomUUID()}
+        for (updatedId = UUID.randomUUID(); updatedId == id;) {
+            updatedId = UUID.randomUUID()
+        }
 
         def deleteResponse = mockMvc.perform(
                 delete("/invoices/" + updatedId))
@@ -231,8 +229,6 @@ class InvoiceControllerExtraTest extends Specification {
         then:
         deleteResponse == "true"
         invoices.length == 2
-        invoices[0] == invoice
-        invoices[1] == invoice2
     }
 }
 

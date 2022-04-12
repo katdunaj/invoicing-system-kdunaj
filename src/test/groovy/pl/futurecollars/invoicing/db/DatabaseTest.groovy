@@ -14,9 +14,9 @@ abstract class DatabaseTest extends Specification {
 
     def issuer = new Company ("112-425-567-89", "ul.Ogrodowa 3 Kampinos", "Telnet", 1000.00, 1000.00)
     def receiver = new Company("112-425-567-69", "ul.Ogrodowa 6 Kampinos", "Netplus", 1000.00, 1000.00)
-    def issuerDate = LocalDate.of(2017, 7, 21)
-    def invoiceEntries = new ArrayList<InvoiceEntry>()
-    def invoice = new Invoice(issuerDate, issuer, receiver, entries)
+    def date = LocalDate.of(2017, 7, 21)
+    def entries = new ArrayList<InvoiceEntry>()
+    def invoice = new Invoice(date, issuer, receiver, entries)
     Database database
 
     def setup() {
@@ -46,8 +46,8 @@ abstract class DatabaseTest extends Specification {
 
     def "should get list of all invoice "() {
         setup:
-        def invoice2 = new Invoice(issuerDate, issuer, receiver, entries)
-        def invoice3 = new Invoice(issuerDate, issuer, receiver, entries)
+        def invoice2 = new Invoice(date, issuer, receiver, entries)
+        def invoice3 = new Invoice(date, issuer, receiver, entries)
         database.save(invoice)
         database.save(invoice2)
         database.save(invoice3)
@@ -74,7 +74,7 @@ abstract class DatabaseTest extends Specification {
     def "should update invoice in the database"() {
         setup:
         database.save(invoice)
-        def invoiceUpdated = new Invoice(issuerDate, issuer, receiver, entries)
+        def invoiceUpdated = new Invoice(date, issuer, receiver, entries)
         invoiceUpdated.setId(invoice.getId())
 
         when:
@@ -97,8 +97,8 @@ abstract class DatabaseTest extends Specification {
 
     def "should remove all invoices form database"() {
         setup:
-        def invoice2 = new Invoice(issuerDate, issuer, receiver, entries)
-        def invoice3 = new Invoice(issuerDate, issuer, receiver, entries)
+        def invoice2 = new Invoice(date, issuer, receiver, entries)
+        def invoice3 = new Invoice(date, issuer, receiver, entries)
         database.save(invoice)
         database.save(invoice2)
         database.save(invoice3)
