@@ -3,15 +3,17 @@ package pl.futurecollars.invoicing.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Company {
 
-  @ApiModelProperty(value = "Tax identification number", required = true, example = "112-425-567-89")
+  @ApiModelProperty(value = "Tax identification number", required = true, example = "1234567890")
   private String taxIdentificationNumber;
 
   @ApiModelProperty(value = "Object address", required = true, example = "ul.Ogrodowa 6, 05-085 Kampinos A")

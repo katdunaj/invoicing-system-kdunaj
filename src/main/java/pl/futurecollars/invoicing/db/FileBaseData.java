@@ -85,9 +85,8 @@ public class FileBaseData implements Database {
   }
 
   @Override
-  public boolean clear() {
+  public void clear() {
     fileService.clearDatabase();
-    return false;
   }
 
 
