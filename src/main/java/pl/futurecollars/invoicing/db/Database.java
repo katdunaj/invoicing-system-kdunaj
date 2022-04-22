@@ -16,5 +16,5 @@ public interface Database {
 
   Invoice update(Invoice updatedInvoice);
 
-  boolean clear();
+  void clear();
 }
