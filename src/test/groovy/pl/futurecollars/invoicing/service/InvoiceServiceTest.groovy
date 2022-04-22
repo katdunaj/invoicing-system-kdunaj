@@ -1,6 +1,7 @@
 package pl.futurecollars.invoicing.service
 
 import pl.futurecollars.invoicing.db.InMemoryDatabase
+import pl.futurecollars.invoicing.dto.mappers.impl.InvoiceListMapperImpl
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.model.InvoiceEntry
@@ -26,7 +27,7 @@ class InvoiceServiceTest extends Specification {
     def invoice4 = new Invoice(issuerDate2, issuer, receiver, entries)
     def invoiceUpdated = new Invoice(issuerDate, issuerUpdated, receiver, entries)
     def database = new InMemoryDatabase()
-    //def invoiceListMapper = new InvoiceListMapperImpl()
+    def invoiceListMapper = new InvoiceListMapperImpl()
 
 
     def "should calculate total net value of all invoice entries"() {
