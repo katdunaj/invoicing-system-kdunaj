@@ -26,11 +26,13 @@ class InvoiceServiceTest extends Specification {
     def invoice4 = new Invoice(issuerDate2, issuer, receiver, entries)
     def invoiceUpdated = new Invoice(issuerDate, issuerUpdated, receiver, entries)
     def database = new InMemoryDatabase()
+    //def invoiceListMapper = new InvoiceListMapperImpl()
+
 
     def "should calculate total net value of all invoice entries"() {
         setup:
         database.save(invoice)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def result = invoiceService.getTotalNet(invoice)
@@ -42,7 +44,7 @@ class InvoiceServiceTest extends Specification {
     def "should calculate total tax value of all invoice entries"() {
         setup:
         database.save(invoice)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database,  invoiceListMapper)
 
         when:
         def result = invoiceService.getTotalTaxValue(invoice)
@@ -54,7 +56,7 @@ class InvoiceServiceTest extends Specification {
     def "should calculate total gross value of all invoice entries"() {
         setup:
         database.save(invoice)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def result = invoiceService.getTotalGross(invoice)
@@ -68,7 +70,7 @@ class InvoiceServiceTest extends Specification {
         database.save(invoice)
         database.save(invoice)
         database.save(invoice2)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def resultIssuer1 = invoiceService.filterByIssuer("Telnet")
@@ -84,7 +86,7 @@ class InvoiceServiceTest extends Specification {
         database.save(invoice)
         database.save(invoice3)
         database.save(invoice3)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def resultReceiver1 = invoiceService.filterByReceiver("TelPlus")
@@ -100,8 +102,7 @@ class InvoiceServiceTest extends Specification {
         database.save(invoice)
         database.save(invoice)
         database.save(invoice4)
-        def invoiceService = new InvoiceService(database)
-
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
         when:
         def resultDate1 = invoiceService.filterByDate(issuerDate)
         def resultDate2 = invoiceService.filterByDate(issuerDate2)
@@ -113,7 +114,7 @@ class InvoiceServiceTest extends Specification {
 
     def "should save invoice in to database"() {
         setup:
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def result = invoiceService.save(invoice)
@@ -126,7 +127,7 @@ class InvoiceServiceTest extends Specification {
     def "should get invoice from database by Id"() {
         setup:
         database.save(invoice)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def result = invoiceService.getById(invoice.getId())
@@ -141,7 +142,7 @@ class InvoiceServiceTest extends Specification {
         database.save(invoice)
         database.save(invoice2)
         database.save(invoice3)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def result = invoiceService.getAll()
@@ -153,7 +154,7 @@ class InvoiceServiceTest extends Specification {
     def "should update invoice in the database"() {
         setup:
         database.save(invoice)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
         invoiceUpdated.setId(invoice.getId())
 
         when:
@@ -167,7 +168,7 @@ class InvoiceServiceTest extends Specification {
     def "should delete invoice from database"() {
         setup:
         database.save(invoice)
-        def invoiceService = new InvoiceService(database)
+        def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
         def result = invoiceService.delete(invoice.getId())
