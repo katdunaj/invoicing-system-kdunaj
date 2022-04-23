@@ -5,7 +5,7 @@ logging:
     org.springframework: warn
 
 invoicing-system:
-  database: jpa
+  database: mongo
 
 spring:
   jpa:

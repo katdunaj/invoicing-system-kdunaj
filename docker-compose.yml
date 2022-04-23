@@ -1,13 +1,25 @@
 version: '3.5'
 
+#services:
+#  postgres:
+#    container_name: postgres_container
+#    image: postgres
+#    environment:
+#      POSTGRES_PASSWORD: '1122'
+#    ports:
+#      - "5432:5432"
+#
+#volumes:
+#  postgres:
+
+
 services:
-  postgres:
-    container_name: postgres_container
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: '1111'
+  mongodb_container:
+    image: mongo:latest
     ports:
-      - "5432:5432"
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
 
 volumes:
-  pgadmin:
+  mongodb_data_container:
