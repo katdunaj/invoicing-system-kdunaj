@@ -79,7 +79,7 @@ class InvoiceServiceTest extends Specification {
 
         then:
         resultIssuer1.size() == 2
-        resultIssuer2.size() == 1
+        resultIssuer2.size() == 0
     }
 
     def "should filter list of invoices by receiver name"() {
@@ -90,8 +90,8 @@ class InvoiceServiceTest extends Specification {
         def invoiceService = new InvoiceService(database, invoiceListMapper)
 
         when:
-        def resultReceiver1 = invoiceService.filterByReceiver("TelPlus")
-        def resultReceiver2 = invoiceService.filterByReceiver("IntelPlus")
+        def resultReceiver1 = invoiceService.filterByReceiverName("Nokia")
+        def resultReceiver2 = invoiceService.filterByReceiverName("Evolutions")
 
         then:
         resultReceiver1.size() == 1
@@ -163,7 +163,7 @@ class InvoiceServiceTest extends Specification {
 
         then:
         database.getById(result.getId()) != null
-        database.getById(result.getId()).getIssuer().getName() == "Nokia"
+        database.getById(result.getId()).getIssuer().getName() == "PlusNet"
     }
 
     def "should delete invoice from database"() {

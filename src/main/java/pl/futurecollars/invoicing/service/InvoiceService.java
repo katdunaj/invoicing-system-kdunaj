@@ -48,7 +48,7 @@ public class InvoiceService {
       .collect(Collectors.toList());
   }
 
-  public List<Invoice> filterByReceiver(String receiver) {
+  public List<Invoice> filterByReceiverName(String receiver) {
     return database.getAll()
       .stream()
       .filter((Invoice invoice) -> receiver.equals(invoice.getReceiver().getName()))
