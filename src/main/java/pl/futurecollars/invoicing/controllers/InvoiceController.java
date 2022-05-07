@@ -1,6 +1,5 @@
 package pl.futurecollars.invoicing.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class InvoiceController implements InvoiceControllerApi {
 
   @Override
   public ResponseEntity<Invoice> save(@RequestBody Invoice invoice) {
-    log.debug("Adding new invoice to database");
+    log.debug("Adding new invoice to database {}", invoice);
     return ResponseEntity.ok()
       .body(invoiceService.save(invoice));
   }
@@ -37,20 +36,16 @@ public class InvoiceController implements InvoiceControllerApi {
 
   @Override
   public ResponseEntity<List<InvoiceListDto>> getList() {
-    log.debug("Getting list of invoices from database");
+    List<InvoiceListDto> invoices = invoiceService.getList();
+    log.debug("Getting list of invoices from database {}", invoices);
     return ResponseEntity.ok()
-      .body(invoiceService.getList());
+      .body(invoices);
   }
   @Override
   public ResponseEntity<Invoice> getById(@PathVariable UUID id) {
     log.debug("Getting invoice ID: " + id + " from database");
-    try {
-      return ResponseEntity.ok()
-        .body(invoiceService.getById(id).get());
-    } catch (Exception e) {
-      log.error("Exception: " + e + " occurred while getting invoice ID: " + id + " from database");
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+    return invoiceService.getById(id).map(ResponseEntity::ok)
+      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
   @Override
