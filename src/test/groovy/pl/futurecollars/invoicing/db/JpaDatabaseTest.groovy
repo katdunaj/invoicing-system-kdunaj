@@ -10,7 +10,7 @@ import pl.futurecollars.invoicing.repository.InvoiceRepository
 class JpaDatabaseTest extends DatabaseTest {
 
     @Autowired
-    private InvoiceRepository invoiceRepository;
+    private InvoiceRepository invoiceRepository
 
     Database getDatabaseInstance() {
         assert invoiceRepository != null

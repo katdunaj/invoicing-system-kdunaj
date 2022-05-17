@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -12,6 +13,7 @@ public class JsonService<T> {
 
   private final ObjectMapper objectMapper;
 
+  @Nullable
   public String convertToJson(T object) {
     try {
       return objectMapper.writeValueAsString(object);
@@ -21,6 +23,7 @@ public class JsonService<T> {
     }
   }
 
+  @Nullable
   public T convertToObject(String line, Class<T> t) {
     try {
       return objectMapper.readValue(line, t);

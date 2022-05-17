@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class FileService {
       return Files.readAllLines(Paths.get(Configurations.FILE_DATABASE_PATH));
     } catch (IOException e) {
       e.printStackTrace();
-      return null;
+      return new ArrayList<>();
     }
   }
 
@@ -40,6 +41,9 @@ public class FileService {
   }
 
   public boolean containsID(UUID id) {
+    for (int i = 0; i < readFromDatabase().size(); i++) {
+
+    }
     try {
       return Files.readAllLines(Paths.get(Configurations.FILE_ID_KEEPER_PATH))
         .stream().anyMatch(line -> line.contains(id.toString()));
